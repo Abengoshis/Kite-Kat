@@ -109,7 +109,9 @@ namespace KiteKat
             var ropeEntities = CreateRope(ropeTexture, 32, 200f, world.GetComponent<Transform>(playerEntity).Position, world.GetComponent<Transform>(kiteEntity).Position);
             ConnectPlayerAndKiteWithRope(playerEntity, kiteEntity, ropeEntities);
 
-            var cat = CreateCat(catTexture);
+            var cat1 = CreateCat(catTexture, 200f, 200f);
+            var cat2 = CreateCat(catTexture, 300f, 300f);
+            var cat3 = CreateCat(catTexture, 800f, 300f);
         }
 
         // TODO: configurable texture, mass, speed, kite extend/retract speed, 
@@ -254,9 +256,9 @@ namespace KiteKat
             kiteSpring.RestOrigin = new Vector2(0, 0);
         }
 
-        private int CreateCat(Texture2D catTexture)
+        private int CreateCat(Texture2D catTexture, float x, float y)
         {
-            var catEntity = world.CreateEntity(200f, 200f);
+            var catEntity = world.CreateEntity(x, y);
 
             var sprite = world.AddComponent<Sprite>(catEntity);
             sprite.Texture = catTexture;

@@ -12,7 +12,6 @@ namespace KiteKat.Components
     {
         public int KiteEntity;
         public int PlayerEntity;
-        public int ConnectedEntity;
-        public float SegmentProgress;
+        public float Progress;
     }
 }

@@ -42,7 +42,6 @@ namespace KiteKat.Systems
                 var catSlide = world.AddComponent<CatSlide>(entity);
                 catSlide.KiteEntity = kiteEntity;
                 catSlide.PlayerEntity = kite.PlayerEntity;
-                catSlide.ConnectedEntity = kite.RopeEntity;
 
                 // Make sure the cat doesn't overshoot the kite.
                 catPounce.Progress = 1f;

@@ -19,7 +19,7 @@ namespace KiteKat.Systems
 
     class CatSlideSystem : EcsSystem<CatSlideFilter>
     {
-        private float slideSpeed = 10f;
+        private float slideSpeed = 150f;
 
         public CatSlideSystem(EcsWorld world) : base(world)
         {
@@ -39,38 +39,51 @@ namespace KiteKat.Systems
             }
             else
             {
-                catSlide.SegmentProgress += slideSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                catSlide.Progress += slideSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                // Advance the current segment down the rope.
-                while (catSlide.SegmentProgress >= 1f)
+                var kiteEntity = catSlide.KiteEntity;
+                var kite = world.GetComponent<Kite>(kiteEntity);
+
+                // Find the rope transform and next rope transform at the current distance.
+                var currentEntity = kiteEntity;
+                var nextEntity = kite.RopeEntity;
+                Transform currentTransform = world.GetComponent<Transform>(currentEntity);
+                Transform nextTransform = world.GetComponent<Transform>(nextEntity);
+                var segmentDistance = 0f;
+                var cumulativeDistance = 0f;
+                while (cumulativeDistance < catSlide.Progress)
                 {
-                    catSlide.ConnectedEntity = world.GetComponent<Rope>(catSlide.ConnectedEntity).PreviousEntity;
-
-                    // If the next rope entity is the player's rope, stop sliding.
-                    var player = world.GetComponent<Player>(catSlide.PlayerEntity);
-                    if (catSlide.ConnectedEntity == player.RopeEntity)
+                    if (nextEntity == catSlide.PlayerEntity)
                     {
-                        catSlide.SegmentProgress = 0f;
+                        catSlide.Progress = cumulativeDistance;
                     }
                     else
                     {
-                        --catSlide.SegmentProgress;
+                        currentEntity = nextEntity;
+                        var currentRope = world.GetComponent<Rope>(currentEntity);
+                        nextEntity = currentRope.PreviousEntity;
                     }
+
+                    currentTransform = world.GetComponent<Transform>(currentEntity);
+                    nextTransform = world.GetComponent<Transform>(nextEntity);
+
+                    segmentDistance = Vector2.Distance(currentTransform.Position, nextTransform.Position);
+                    cumulativeDistance += segmentDistance;
                 }
 
-                var rope = world.GetComponent<Rope>(catSlide.ConnectedEntity);
+                // Move the distance back to the distance of the rope transform closer towards the kite.
+                cumulativeDistance -= segmentDistance;
 
-                var ropeTransform = world.GetComponent<Transform>(catSlide.ConnectedEntity);
-
-                var lastRopeTransform = world.GetComponent<Transform>(rope.NextEntity);
-
-                Physics ropePhysics;
-                if (world.TryGetComponent<Physics>(catSlide.ConnectedEntity, out ropePhysics))
+                if (segmentDistance > 0)
                 {
-                    ropePhysics.Force += Vector2.UnitY * 300f;
+                    // Determine the progress along the current segment.
+                    var segmentProgress = (catSlide.Progress - cumulativeDistance) / segmentDistance;
+                    transform.Position = Vector2.Lerp(currentTransform.Position, nextTransform.Position, segmentProgress);
                 }
-
-                transform.Position = Vector2.Lerp(lastRopeTransform.Position, ropeTransform.Position, catSlide.SegmentProgress);
+                else
+                {
+                    transform.Position = currentTransform.Position;
+                }
             }
         }
     }
