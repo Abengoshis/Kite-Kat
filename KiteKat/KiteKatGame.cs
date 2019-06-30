@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using KiteKat.EcsCore;
-using KiteKat.EcsCore.Components;
+using EcsCore;
+using EcsCore.Components;
 using KiteKat.Components;
 using KiteKat.Systems;
 

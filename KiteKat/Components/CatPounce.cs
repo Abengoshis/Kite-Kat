@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using KiteKat.EcsCore.Components;
+using EcsCore.Components;
 
 namespace KiteKat.Components
 {

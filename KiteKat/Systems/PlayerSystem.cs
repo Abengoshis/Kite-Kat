@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using KiteKat.EcsCore;
-using KiteKat.EcsCore.Systems;
-using KiteKat.EcsCore.Components;
+using EcsCore;
+using EcsCore.Systems;
+using EcsCore.Components;
 using KiteKat.Components;
 
 namespace KiteKat.Systems

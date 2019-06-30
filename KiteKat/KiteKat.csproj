@@ -50,14 +50,10 @@
     <Compile Include="Components\Kite.cs" />
     <Compile Include="Components\Player.cs" />
     <Compile Include="Components\Rope.cs" />
-    <Compile Include="EcsCore\Components\IEcsComponent.cs" />
-    <Compile Include="EcsCore\EcsWorld.cs" />
     <Compile Include="Components\Physics.cs" />
     <Compile Include="Components\Spring.cs" />
-    <Compile Include="EcsCore\Components\Transform.cs" />
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Debugging\DebugDrawing.cs" />
-    <Compile Include="EcsCore\Systems\IEcsSystem.cs" />
     <Compile Include="Helpers\Ease.cs" />
     <Compile Include="Systems\CatAbscondSystem.cs" />
     <Compile Include="Systems\CatSlideSystem.cs" />
@@ -69,13 +65,16 @@
     <Compile Include="Systems\PlayerSystem.cs" />
     <Compile Include="Systems\SpringSystem.cs" />
     <Compile Include="Systems\SpriteSystem.cs" />
-    <Compile Include="EcsCore\Systems\TransformSystem.cs" />
     <Compile Include="Systems\WindSystem.cs" />
     <Compile Include="KiteKatGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="EcsCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>libs\EcsCore.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -133,9 +132,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
-    <Compile Include="EcsCore\Systems\EcsSystem.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="libs\EcsCore.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
